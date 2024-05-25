@@ -18,7 +18,7 @@ const HomeScreen = ({navigation}) => {
       </View>
       {/* Hero */}
       <View style={styles.heroContainer}>
-          <Image style={{ borderRadius: 14 }} source={require('../assets/images/hero.png')} width={331} height={160}/>
+          <Image fadeDuration={0} style={{ borderRadius: 14 }} source={require('../assets/images/hero.png')} width={331} height={160}/>
       </View>
       {/* Fitur */}
       <View style={{ flexDirection: 'row', gap: 77, marginBottom: 20 }}>

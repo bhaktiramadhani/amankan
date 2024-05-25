@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, Pressable, Button } from 'react-native'
+import { View, Text, StyleSheet, TextInput, Pressable } from 'react-native'
 import { Eye, EyeOff, Logo,Tick } from '../../core/Svg';
 import { useState } from 'react';
 
@@ -8,24 +8,24 @@ const RegisterScreen = ({navigation}) => {
     const [NIK, setNIK] = useState(0);
     const [namaLengkap, setNamaLengkap] = useState('');
 
-    // const handleCheckNIK = (e) => {
-    //     const dataNIK = {
-    //         nik: 637103010101,
-    //         namaLengkap: 'Bhakti Ramadhani'
-    //     };
+    const handleCheckNIK = (e) => {
+        const dataNIK = {
+            nik: 637103010101,
+            namaLengkap: 'Bhakti Ramadhani'
+        };
 
-    //     if(e.length == 12){
-    //       if(e == dataNIK.nik){
-    //         console.log('true')
-    //         setValidNIK(true);
-    //         setNIK(dataNIK.nik);
-    //         setNamaLengkap(dataNIK.namaLengkap.toUpperCase());
-    //       }
-    //     }else{
-    //         setValidNIK(false);
-    //         setNamaLengkap("");
-    //     }
-    // }
+        if(e.length == 12){
+          if(e == dataNIK.nik){
+            console.log('true')
+            setValidNIK(true);
+            setNIK(dataNIK.nik);
+            setNamaLengkap(dataNIK.namaLengkap.toUpperCase());
+          }
+        }else{
+            setValidNIK(false);
+            setNamaLengkap("");
+        }
+    }
 
     const handleShowPassword = () => {
         setShowPassword(!showPassword);
@@ -38,10 +38,10 @@ const RegisterScreen = ({navigation}) => {
         <View style={styles.inputContainer}>
             <View>
                 <Text style={styles.label}>NIK</Text>
-                <TextInput style={styles.input} placeholder="NIK anda..." maxLength={12} keyboardType='number-pad'/>
+                <TextInput style={styles.input} onChangeText={handleCheckNIK} placeholder="NIK anda..." maxLength={12} keyboardType='number-pad'/>
                 <View style={styles.showPassword}>
                     <Pressable>
-                        {validNIK && <Tick width={24} height={24}/> }
+                        {validNIK && <Tick width={24} height={24} fill="#4FB800"/> }
                     </Pressable>
                 </View>
             </View>

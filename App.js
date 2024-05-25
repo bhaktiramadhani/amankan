@@ -1,4 +1,4 @@
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SplashScreen from './screens/SplashScreen';
 import LoginScreen from './screens/Auth/LoginScreen';
@@ -6,6 +6,7 @@ import RegisterScreen from './screens/Auth/RegisterScreen';
 import PanduanPelaporan from './screens/PanduanPelaporan';
 import { useFonts } from 'expo-font';
 import HomeTabs from './screens/HomeTabs';
+import LaporScreen from './screens/LaporScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,7 @@ export default function App() {
         <Stack.Screen name="Home" component={HomeTabs} options={headerShown}/>
         <Stack.Screen name="Login" component={LoginScreen} options={headerShown}/>
         <Stack.Screen name="Register" component={RegisterScreen} options={headerShown}/>
+        <Stack.Screen name="Lapor Screen" component={LaporScreen} options={headerShown}/>
         <Stack.Screen name="Panduan Pelaporan" component={PanduanPelaporan}/>
       </Stack.Navigator>
     </NavigationContainer>

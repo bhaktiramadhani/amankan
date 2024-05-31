@@ -32,7 +32,7 @@ export default function HomeTabs({navigation}) {
         component={HomeScreen}
         options={{
           headerShown: false,
-          tabBarIcon: () => <Beranda width={24} height={24} />,
+          tabBarIcon: () => <Beranda width={24} height={24}/>,
           tabBarLabelStyle: tabBarLabelStyle,
           tabBarLabel: 'Beranda',
           tabBarActiveTintColor: tabBarActiveTintColor,
@@ -44,10 +44,10 @@ export default function HomeTabs({navigation}) {
         component={LaporanScreen}
         options={{
           headerShown: false,
-          tabBarIcon: () => <Laporan width={24} height={24} />,
+          tabBarIcon: () => <Laporan width={24} height={24}/>,
           tabBarLabelStyle: tabBarLabelStyle,
           tabBarActiveTintColor: tabBarActiveTintColor,
-          tabBarInactiveTintColor: tabBarInactiveTintColor
+          tabBarInactiveTintColor: tabBarInactiveTintColor,
         }}
       />
       <Tab.Screen

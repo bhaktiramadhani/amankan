@@ -28,7 +28,7 @@ const HomeScreen = ({navigation}) => {
           </View>
           <Text style={{ textAlign: 'center', fontSize: 12 }}>Panduan Pelaporan</Text>
         </Pressable>
-        <Pressable style={styles.fiturItemContainer}>
+        <Pressable style={styles.fiturItemContainer} onPress={() => navigation.navigate('Semua Laporan')}>
           <View style={styles.fiturItem}>
             <Report width={24} height={24}/>
           </View>

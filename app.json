@@ -13,7 +13,19 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.amankan",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDdvyfDw-LvTgpsmF8mZt5q12TwCLqEn24"
+        }
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -40,7 +52,18 @@
           "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
           "recordAudioAndroid": true
         }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+        }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "c9194d7f-943e-4d1c-8329-b15d5f51bfcb"
+      }
+    }
   }
 }

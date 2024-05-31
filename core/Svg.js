@@ -15,6 +15,13 @@ import Profile from "../assets/images/svg/profile.svg";
 import Plus from "../assets/images/svg/plus.svg";
 import Close from "../assets/images/svg/close.svg";
 import ArrowLeft from "../assets/images/svg/arrow_left.svg";
+import LaporProsesIcon from "../assets/images/svg/lapor_proses.svg";
+import MarkerMan from "../assets/images/svg/location_man.svg";
+import ShareBasic from "../assets/images/svg/share.svg";
+import ShareWhatsapp from "../assets/images/svg/share_whatsapp.svg";
+import User from "../assets/images/svg/user.svg";
+import UserTick from "../assets/images/svg/user_tick.svg";
+import NotificationSymbol from "../assets/images/svg/notification_symbol.svg";
 export {
   Logo,
   Eye,
@@ -32,5 +39,12 @@ export {
   Profile,
   Plus,
   Close,
-  ArrowLeft
+  ArrowLeft,
+  LaporProsesIcon,
+  MarkerMan,
+  ShareBasic,
+  ShareWhatsapp,
+  User,
+  UserTick,
+  NotificationSymbol
 };

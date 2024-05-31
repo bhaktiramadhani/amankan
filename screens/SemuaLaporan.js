@@ -1,10 +1,16 @@
-import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
-import Navbar from "../components/Navbar";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { Search } from "../core/Svg";
 import CardLaporan from "../components/CardLaporan";
 
-export default function LaporanScreen() {
+export default function SemuaLaporan() {
   const filterOptions = [
     { id: 1, label: "Semua" },
     { id: 2, label: "Selesai" },
@@ -18,9 +24,9 @@ export default function LaporanScreen() {
   const handleFilterChange = (id) => {
     setSelectedFilter(id);
   };
+
   return (
     <ScrollView style={styles.container}>
-      <Navbar />
       <View>
         <TextInput style={styles.input} placeholder="Cari Laporan" />
         <View style={styles.search}>
@@ -56,8 +62,6 @@ export default function LaporanScreen() {
           distance="1.5 KM"
           time="2 jam yang lalu"
           status="Gagal"
-          role="Pelapor"
-          user="Jondoe"
         />
         <CardLaporan
           image={require("../assets/images/hero.png")}
@@ -66,8 +70,6 @@ export default function LaporanScreen() {
           distance="1.5 KM"
           time="2 jam yang lalu"
           status="Gagal"
-          role="Pelapor"
-          user="Jondoe"
         />
       </View>
     </ScrollView>
@@ -76,8 +78,7 @@ export default function LaporanScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 22,
-    paddingBottom: 22,
+    padding: 22,
   },
   input: {
     borderWidth: 2,

@@ -23,11 +23,6 @@ export default function App() {
     Poppins_800ExtraBold: require("./assets/fonts/Poppins_800ExtraBold.ttf"),
   });
 
-
-  if (!fontsLoaded) {
-    return null;
-  }
-
   const headerShown = { headerShown: false };
   return (
     <NavigationContainer>

@@ -17,7 +17,7 @@
       "package": "com.amankan",
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyDdvyfDw-LvTgpsmF8mZt5q12TwCLqEn24"
+          "apiKey": ""
         }
       },
       "permissions": [

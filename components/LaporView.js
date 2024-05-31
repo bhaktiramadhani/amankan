@@ -24,6 +24,7 @@ import {
 } from "expo-location";
 import LaporProses from "./LaporProses";
 import { PROVIDER_GOOGLE } from "react-native-maps";
+import Loading from "./Loading";
 
 const LaporView = ({ image, setIsPhotoDone }) => {
   const { width, height } = Dimensions.get("window");
@@ -97,9 +98,7 @@ const LaporView = ({ image, setIsPhotoDone }) => {
 
   if(!location) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center' }}>
-        <ActivityIndicator size="large" color="#FF2D2D" />
-      </View>
+      <Loading/>
     )
   }
 

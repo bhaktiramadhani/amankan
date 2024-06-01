@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,34 +6,108 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
+  FlatList,
+  Button,
 } from "react-native";
 import { Search } from "../core/Svg";
 import CardLaporan from "../components/CardLaporan";
+import data from "../data/data";
 
-export default function SemuaLaporan() {
-  const filterOptions = [
-    { id: 1, label: "Semua" },
-    { id: 2, label: "Selesai" },
-    { id: 3, label: "Belum Selesai" },
-    { id: 4, label: "Gagal" },
-    { id: 5, label: "Tidak Valid" },
-  ];
+const filterOptions = [
+  { id: 1, label: "Semua" },
+  { id: 2, label: "Selesai" },
+  { id: 3, label: "Belum Selesai" },
+  { id: 4, label: "Gagal" },
+  { id: 5, label: "Tidak Valid" },
+];
 
+const filterStatusMap = {
+  2: "Selesai",
+  3: "Belum Selesai",
+  4: "Gagal",
+  5: "Tidak Valid",
+};
+
+export default function SemuaLaporan({ navigation }) {
   const [selectedFilter, setSelectedFilter] = useState(1);
+  const [searchText, setSearchText] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+  const [chunkSize, setChunkSize] = useState(10);
+
+  useEffect(() => {
+    filterData();
+  }, [selectedFilter, searchText, chunkSize]);
 
   const handleFilterChange = (id) => {
     setSelectedFilter(id);
+    setChunkSize(10); // Reset chunk size when filter changes
   };
 
+  const handleSearch = (text) => {
+    setSearchText(text);
+  };
+
+  const filterData = () => {
+    let newData = data;
+
+    if (selectedFilter !== 1) {
+      const filterStatus = filterStatusMap[selectedFilter];
+      newData = newData.filter((item) => item.status === filterStatus);
+    }
+
+    newData = newData.filter((item) =>
+      item.title.toLowerCase().includes(searchText.toLowerCase())
+    );
+
+    setFilteredData(newData.slice(0, chunkSize)); // Slice data to match chunk size
+  };
+
+  const loadMoreData = () => {
+    const newChunkSize = chunkSize + 10;
+    setChunkSize(newChunkSize);
+  };
+
+  const renderFooter = () => {
+    if (chunkSize >= data.length) return null; // Hide button when all data is loaded
+    return (
+      <View style={{ marginBottom: 40 }}>
+        <Button title="Muat Lebih Banyak" onPress={loadMoreData} />
+      </View>
+    );
+  };
+
+  const renderItem = ({ item }) => (
+    <CardLaporan
+      id={item.id}
+      image={item.image}
+      title={item.title}
+      location={item.location}
+      distance={item.distance}
+      time={item.time}
+      status={item.status}
+      role={item.role}
+      user={item.user}
+      navigation={navigation}
+    />
+  );
+
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <View>
-        <TextInput style={styles.input} placeholder="Cari Laporan" />
+        <TextInput
+          style={styles.input}
+          placeholder="Cari Laporan"
+          onChangeText={handleSearch}
+        />
         <View style={styles.search}>
           <Search width={24} height={24} />
         </View>
       </View>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        style={{ height: 35 }}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+      >
         {filterOptions.map((item) => (
           <TouchableOpacity
             key={item.id}
@@ -54,25 +128,15 @@ export default function SemuaLaporan() {
           </TouchableOpacity>
         ))}
       </ScrollView>
-      <View style={{ marginTop: 14, marginBottom: 50 }}>
-        <CardLaporan
-          image={require("../assets/images/hero.png")}
-          title="Maling Sepeda Motor"
-          location="Jl. Kaliurang km 5"
-          distance="1.5 KM"
-          time="2 jam yang lalu"
-          status="Gagal"
-        />
-        <CardLaporan
-          image={require("../assets/images/hero.png")}
-          title="Maling Sepeda Motor"
-          location="Jl. Kaliurang km 5"
-          distance="1.5 KM"
-          time="2 jam yang lalu"
-          status="Gagal"
-        />
-      </View>
-    </ScrollView>
+      <FlatList
+        data={filteredData}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderItem}
+        style={styles.cardLaporanContainer}
+        showsVerticalScrollIndicator={false}
+        ListFooterComponent={renderFooter}
+      />
+    </View>
   );
 }
 
@@ -95,6 +159,7 @@ const styles = StyleSheet.create({
     top: "22%",
   },
   filterLabel: {
+    height: 28,
     backgroundColor: "#FFFFFF",
     paddingVertical: 4,
     paddingHorizontal: 13,
@@ -116,5 +181,9 @@ const styles = StyleSheet.create({
   },
   filterLabelTextSelected: {
     color: "#fff",
+  },
+  cardLaporanContainer: {
+    marginTop: 14,
+    marginBottom: 50,
   },
 });

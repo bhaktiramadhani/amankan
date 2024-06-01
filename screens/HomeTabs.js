@@ -60,7 +60,7 @@ export default function HomeTabs({navigation}) {
             return (
               <TouchableOpacity
               onPress={() => {
-                navigation.navigate('Lapor Screen');
+                navigation.navigate('LaporScreen');
               }}
                 style={{
                   width: 62,

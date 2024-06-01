@@ -5,6 +5,11 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/images/logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true
@@ -35,13 +40,13 @@
         "expo-font",
         {
           "fonts": [
-            "node_modules/@expo-google-fonts/Poppins_200ExtraLight.ttf",
-            "node_modules/@expo-google-fonts/Poppins_300Light.ttf",
-            "node_modules/@expo-google-fonts/Poppins_400Regular.ttf",
-            "node_modules/@expo-google-fonts/Poppins_500Medium.ttf",
-            "node_modules/@expo-google-fonts/Poppins_600SemiBold.ttf",
-            "node_modules/@expo-google-fonts/Poppins_700Bold.ttf",
-            "node_modules/@expo-google-fonts/Poppins_800ExtraBold.ttf"
+            "assets/fonts/Poppins_200ExtraLight.ttf",
+            "assets/fonts/Poppins_300Light.ttf",
+            "assets/fonts/Poppins_400Regular.ttf",
+            "assets/fonts/Poppins_500Medium.ttf",
+            "assets/fonts/Poppins_600SemiBold.ttf",
+            "assets/fonts/Poppins_700Bold.ttf",
+            "assets/fonts/Poppins_800ExtraBold.ttf"
           ]
         }
       ],

@@ -10,16 +10,29 @@ import {
 import { Distance, Location, Time } from "../core/Svg";
 
 export default function CardLaporanTerakhir({
+  id,
   image,
   title,
   location,
   distance,
   time,
+  navigation
 }) {
+
+  const handlePress = () => {
+    navigation.navigate('DetailLaporan', {
+      id: id,
+      image: image,
+      title: title,
+      location: location,
+      distance: distance,
+      time: time
+    });
+  }
   return (
-    <TouchableNativeFeedback>
+    <TouchableNativeFeedback onPress={handlePress}>
       <View style={styles.laporanCard}>
-        <Image source={image} width={200} height={300} fadeDuration={0} />
+        <Image source={image} width={200} height={165} fadeDuration={0} style={{borderTopLeftRadius: 6,borderTopRightRadius: 6}}/>
         <Text style={styles.textCardHeading}>{title}</Text>
         <View style={{ paddingHorizontal: 10, paddingBottom: 10, gap: 6 }}>
           <View style={styles.cardItemContainer}>

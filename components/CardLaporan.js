@@ -9,6 +9,7 @@ import {
 import { Distance, Location, Time, User, UserTick } from "../core/Svg";
 
 export default function CardLaporan({
+  id,
   image,
   title,
   location,
@@ -17,9 +18,20 @@ export default function CardLaporan({
   status,
   role,
   user,
+  navigation
 }) {
+  const handlePress = () => {
+    navigation.navigate("DetailLaporan", {
+      id: id,
+      image: image,
+      title: title,
+      location: location,
+      distance: distance,
+      time: time,
+    });
+  }
   return (
-    <TouchableNativeFeedback>
+    <TouchableNativeFeedback onPress={handlePress}>
       <View style={styles.laporanCard}>
         <Image
           source={image}
@@ -78,7 +90,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   textCardHeading: {
-    fontSize: 18,
+    fontSize: 20,
     fontFamily: "Poppins_600SemiBold",
     padding: 10,
   },

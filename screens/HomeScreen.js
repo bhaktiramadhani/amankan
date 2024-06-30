@@ -13,9 +13,37 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import { File, Report, Search } from "../core/Svg";
 import CardLaporanTerakhir from "../components/CardLaporanTerakhir";
-import data from "../data/data";
+import { getGreeting } from "../data/data";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const HomeScreen = ({ navigation }) => {
+const data = [
+  {
+    id: 1,
+    image: require("../assets/images/maling.jpg"),
+    title: "Pencurian",
+    location: "Jalan Raya Bogor",
+    distance: "0.5 km",
+    time: "1 jam yang lalu",
+  },
+  {
+    id: 2,
+    image: require("../assets/images/maling2.jpg"),
+    title: "Perampokan",
+    location: "Jalan Raya Bogor",
+    distance: "0.5 km",
+    time: "1 jam yang lalu",
+  },
+  {
+    id: 3,
+    image: require("../assets/images/maling3.jpg"),
+    title: "Penipuan",
+    location: "Jalan Raya Bogor",
+    distance: "0.5 km",
+    time: "1 jam yang lalu",
+  },
+];
+
+const HomeScreen = ({ navigation, user }) => {
   const renderItem = ({ item }) => (
     <CardLaporanTerakhir
       id={item.id}
@@ -31,7 +59,8 @@ const HomeScreen = ({ navigation }) => {
     <ScrollView style={styles.container}>
       <Navbar />
       <Text style={styles.textHeading}>
-        Selamat Pagi, <Text style={styles.textHeadingChild}>Bhakti</Text>
+        {getGreeting()},{" "}
+        <Text style={styles.textHeadingChild}>{user && user.name}</Text>
       </Text>
       {/* Search */}
       <View>

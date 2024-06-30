@@ -7,36 +7,41 @@ import ProfileScreen from "./ProfileScreen";
 import LaporScreen from "./LaporScreen";
 import { Beranda, Laporan, Notification, Plus, Profile } from "../core/Svg";
 import { Text, TouchableOpacity } from "react-native";
+import useUserStore from "../context/store";
 
 const Tab = createBottomTabNavigator();
 
-export default function HomeTabs({navigation}) {
+export default function HomeTabs({ navigation }) {
+  const user = useUserStore((state) => state.user);
   const tabBarLabelStyle = {
     fontSize: 12,
-    fontWeight: 'medium',
+    fontWeight: "medium",
     fontFamily: "Poppins_500Medium",
-    paddingBottom: 14
-  }
-  const tabBarActiveTintColor = '#FF2D2D'
-  const tabBarInactiveTintColor = '#000000'
+    paddingBottom: 14,
+  };
+  const tabBarActiveTintColor = "#FF2D2D";
+  const tabBarInactiveTintColor = "#000000";
   return (
-    <Tab.Navigator initialRouteName="HomeTabs" screenOptions={{ 
-      tabBarStyle: {
-        paddingTop: 18,
-        paddingHorizontal: 14,
-        height: 80,
-      },
-     }}>
+    <Tab.Navigator
+      initialRouteName="HomeTabs"
+      screenOptions={{
+        tabBarStyle: {
+          paddingTop: 18,
+          paddingHorizontal: 14,
+          height: 80,
+        },
+      }}
+    >
       <Tab.Screen
         name="HomeTabs"
-        component={HomeScreen}
+        children={() => <HomeScreen navigation={navigation} user={user} />}
         options={{
           headerShown: false,
-          tabBarIcon: () => <Beranda width={24} height={24}/>,
+          tabBarIcon: () => <Beranda width={24} height={24} />,
           tabBarLabelStyle: tabBarLabelStyle,
-          tabBarLabel: 'Beranda',
+          tabBarLabel: "Beranda",
           tabBarActiveTintColor: tabBarActiveTintColor,
-          tabBarInactiveTintColor: tabBarInactiveTintColor
+          tabBarInactiveTintColor: tabBarInactiveTintColor,
         }}
       />
       <Tab.Screen
@@ -44,7 +49,7 @@ export default function HomeTabs({navigation}) {
         component={LaporanScreen}
         options={{
           headerShown: false,
-          tabBarIcon: () => <Laporan width={24} height={24}/>,
+          tabBarIcon: () => <Laporan width={24} height={24} />,
           tabBarLabelStyle: tabBarLabelStyle,
           tabBarActiveTintColor: tabBarActiveTintColor,
           tabBarInactiveTintColor: tabBarInactiveTintColor,
@@ -59,25 +64,26 @@ export default function HomeTabs({navigation}) {
           tabBarButton: () => {
             return (
               <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('LaporScreen');
-              }}
+                onPress={() => {
+                  navigation.navigate("LaporScreen");
+                }}
                 style={{
                   width: 62,
                   height: 62,
                   borderRadius: 99,
-                  backgroundColor: '#FF2D2D',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginTop: -10
+                  backgroundColor: "#FF2D2D",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: -10,
                 }}
               >
-                <Plus width={24} height={24}/>
-                <Text style={{ color: 'white', fontWeight: 'bold' }}>Lapor</Text>
+                <Plus width={24} height={24} />
+                <Text style={{ color: "white", fontWeight: "bold" }}>
+                  Lapor
+                </Text>
               </TouchableOpacity>
-            )
-
-          }
+            );
+          },
         }}
       />
       <Tab.Screen
@@ -85,10 +91,12 @@ export default function HomeTabs({navigation}) {
         component={NotifikasiScreen}
         options={{
           headerShown: false,
-          tabBarIcon: () => <Notification width={24} height={24} fill="#FF2D2D"/>,
+          tabBarIcon: () => (
+            <Notification width={24} height={24} fill="#000000" />
+          ),
           tabBarLabelStyle: tabBarLabelStyle,
           tabBarActiveTintColor: tabBarActiveTintColor,
-          tabBarInactiveTintColor: tabBarInactiveTintColor
+          tabBarInactiveTintColor: tabBarInactiveTintColor,
         }}
       />
       <Tab.Screen
@@ -99,7 +107,7 @@ export default function HomeTabs({navigation}) {
           tabBarIcon: () => <Profile width={24} height={24} />,
           tabBarLabelStyle: tabBarLabelStyle,
           tabBarActiveTintColor: tabBarActiveTintColor,
-          tabBarInactiveTintColor: tabBarInactiveTintColor
+          tabBarInactiveTintColor: tabBarInactiveTintColor,
         }}
       />
     </Tab.Navigator>

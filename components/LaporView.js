@@ -25,8 +25,9 @@ import {
 import LaporProses from "./LaporProses";
 import { PROVIDER_GOOGLE } from "react-native-maps";
 import Loading from "./Loading";
+import useUserStore from "../context/store";
 
-const LaporView = ({ image, setIsPhotoDone }) => {
+const LaporView = ({ navigation, image, setIsPhotoDone }) => {
   const { width, height } = Dimensions.get("window");
   const [showImageView, setShowImageView] = useState(false);
   const [showMapView, setShowMapView] = useState(false);
@@ -37,6 +38,8 @@ const LaporView = ({ image, setIsPhotoDone }) => {
   const [kejadian, setKejadian] = useState("");
   const [laporClicked, setLaporClicked] = useState(false);
   const [pesan, setPesan] = useState("");
+  const [laporan, setLaporan] = useState({});
+  const user = useUserStore((state) => state.user);
 
   useEffect(() => {
     (async () => {
@@ -81,6 +84,15 @@ const LaporView = ({ image, setIsPhotoDone }) => {
       setPesan("Isi kejadian terlebih dahulu!");
       return;
     }
+    setLaporan({
+      id: Math.random(),
+      user: user,
+      address: address,
+      location: location,
+      title: kejadian,
+      image: image,
+      time: new Date().toLocaleString(),
+    });
     setLaporClicked(true);
   };
 
@@ -89,17 +101,31 @@ const LaporView = ({ image, setIsPhotoDone }) => {
   }
 
   if (showMapView) {
-    return <MapFullView location={location} setShowMapView={setShowMapView}/>;
+    return (
+      <MapFullView
+        isProses={false}
+        address={address}
+        location={location}
+        setShowMapView={setShowMapView}
+      />
+    );
   }
 
   if (laporClicked) {
-    return <LaporProses />;
+    return (
+      <LaporProses
+        navigation={navigation}
+        location={location}
+        setShowMapView={setShowMapView}
+        showMapView={showMapView}
+        setLaporClicked={setLaporClicked}
+        laporan={laporan}
+      />
+    );
   }
 
-  if(!location) {
-    return (
-      <Loading/>
-    )
+  if (!location) {
+    return <Loading />;
   }
 
   return (
@@ -170,7 +196,7 @@ const LaporView = ({ image, setIsPhotoDone }) => {
             }}
             cacheEnabled={Platform.OS === "android" ? true : false}
           >
-            <Marker  coordinate={location} />
+            <Marker coordinate={location} />
             <Circle
               center={location}
               radius={200} // radius in meters

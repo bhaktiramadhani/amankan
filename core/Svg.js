@@ -22,6 +22,14 @@ import ShareWhatsapp from "../assets/images/svg/share_whatsapp.svg";
 import User from "../assets/images/svg/user.svg";
 import UserTick from "../assets/images/svg/user_tick.svg";
 import NotificationSymbol from "../assets/images/svg/notification_symbol.svg";
+import NotificationCharacter from "../assets/images/svg/notification_character.svg";
+import MapsPermission from "../assets/images/svg/maps_permission.svg";
+import Send from "../assets/images/svg/send.svg";
+import CameraIcon from "../assets/images/svg/camera.svg";
+import InfoIcon from "../assets/images/svg/info-icon.svg";
+import PasswordIcon from "../assets/images/svg/password-icon.svg";
+import SettingIcon from "../assets/images/svg/setting-icon.svg";
+import ArrowRight from "../assets/images/svg/arrow-right.svg";
 export {
   Logo,
   Eye,
@@ -46,5 +54,13 @@ export {
   ShareWhatsapp,
   User,
   UserTick,
-  NotificationSymbol
+  NotificationSymbol,
+  NotificationCharacter,
+  MapsPermission,
+  Send,
+  CameraIcon,
+  InfoIcon,
+  PasswordIcon,
+  SettingIcon,
+  ArrowRight,
 };

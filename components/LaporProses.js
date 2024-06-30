@@ -5,19 +5,51 @@ import {
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
+  BackHandler,
 } from "react-native";
 import { LaporProsesIcon } from "../core/Svg";
 import { useEffect, useState } from "react";
+import MapFullView from "./MapFullView";
 
-export default function LaporProses() {
+export default function LaporProses({
+  navigation,
+  location,
+  setShowMapView,
+  showMapView,
+  setLaporClicked,
+  laporan,
+}) {
   const { width, height } = Dimensions.get("window");
   const [laporanTersebar, setLaporanTersebar] = useState(false);
+
+  useEffect(() => {
+    // custom back button
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => {
+        setLaporClicked(false);
+        return true;
+      }
+    );
+    return () => backHandler.remove();
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
       setLaporanTersebar(true);
     }, 3000);
   }, []);
+
+  if (!laporanTersebar) {
+    return (
+      <MapFullView
+        isProses={true}
+        location={location}
+        setShowMapView={setShowMapView}
+      />
+    );
+  }
+
   return (
     <View>
       <LaporProsesIcon width={width} height={375} />
@@ -33,13 +65,10 @@ export default function LaporProses() {
           dahulu!
         </Text>
         <TouchableOpacity
+          onPress={() => navigation.navigate("DetailLaporan", { laporan })}
           style={[styles.button, laporanTersebar && styles.buttonDone]}
         >
-          {!laporanTersebar ? (
-            <ActivityIndicator size="large" color="#FF2D2D" />
-          ) : (
-            <Text style={styles.buttonText}>Lihat Laporan</Text>
-          )}
+          <Text style={styles.buttonText}>Lihat Laporan</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -1,22 +1,96 @@
-import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  ScrollView,
+  TouchableOpacity,
+  FlatList,
+  Button,
+} from "react-native";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { Search } from "../core/Svg";
 import CardLaporan from "../components/CardLaporan";
+import { data } from "../data/data";
 
-export default function LaporanScreen() {
-  const filterOptions = [
-    { id: 1, label: "Semua" },
-    { id: 2, label: "Selesai" },
-    { id: 3, label: "Belum Selesai" },
-    { id: 4, label: "Gagal" },
-    { id: 5, label: "Tidak Valid" },
-  ];
+const filterOptions = [
+  { id: 1, label: "Semua" },
+  { id: 2, label: "Selesai" },
+  { id: 3, label: "Belum Selesai" },
+  { id: 4, label: "Gagal" },
+  { id: 5, label: "Tidak Valid" },
+];
 
+const filterStatusMap = {
+  2: "Selesai",
+  3: "Belum Selesai",
+  4: "Gagal",
+  5: "Tidak Valid",
+};
+
+export default function LaporanScreen({ navigation }) {
   const [selectedFilter, setSelectedFilter] = useState(1);
+  const [searchText, setSearchText] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+  const [chunkSize, setChunkSize] = useState(10);
 
   const handleFilterChange = (id) => {
     setSelectedFilter(id);
+  };
+
+  useEffect(() => {
+    filterData();
+  }, [selectedFilter, searchText, chunkSize]);
+
+  const handleSearch = (text) => {
+    setSearchText(text);
+  };
+
+  const filterData = () => {
+    let newData = data;
+
+    if (selectedFilter !== 1) {
+      const filterStatus = filterStatusMap[selectedFilter];
+      newData = newData.filter((item) => item.status === filterStatus);
+    }
+
+    newData = newData.filter((item) =>
+      item.title.toLowerCase().includes(searchText.toLowerCase())
+    );
+
+    setFilteredData(newData.slice(0, chunkSize)); // Slice data to match chunk size
+  };
+
+  const loadMoreData = () => {
+    const newChunkSize = chunkSize + 10;
+    setChunkSize(newChunkSize);
+  };
+
+  const renderFooter = () => {
+    if (chunkSize >= data.length) return null; // Hide button when all data is loaded
+    return (
+      <View style={{ marginBottom: 40 }}>
+        <Button title="Muat Lebih Banyak" onPress={loadMoreData} />
+      </View>
+    );
+  };
+
+  const renderItem = ({ item }) => {
+    return (
+      <CardLaporan
+        id={item.id}
+        image={item.image}
+        title={item.title}
+        location={item.location}
+        distance={item.distance}
+        time={item.time}
+        status={item.status}
+        role={item.role}
+        user={item.user}
+        navigation={navigation}
+      />
+    );
   };
   return (
     <ScrollView style={styles.container}>
@@ -49,25 +123,13 @@ export default function LaporanScreen() {
         ))}
       </ScrollView>
       <View style={{ marginTop: 14, marginBottom: 50 }}>
-        <CardLaporan
-          image={require("../assets/images/hero.png")}
-          title="Maling Sepeda Motor"
-          location="Jl. Kaliurang km 5"
-          distance="1.5 KM"
-          time="2 jam yang lalu"
-          status="Gagal"
-          role="Pelapor"
-          user="Jondoe"
-        />
-        <CardLaporan
-          image={require("../assets/images/hero.png")}
-          title="Maling Sepeda Motor"
-          location="Jl. Kaliurang km 5"
-          distance="1.5 KM"
-          time="2 jam yang lalu"
-          status="Gagal"
-          role="Pelapor"
-          user="Jondoe"
+        <FlatList
+          data={filteredData}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderItem}
+          style={styles.cardLaporanContainer}
+          showsVerticalScrollIndicator={false}
+          ListFooterComponent={renderFooter}
         />
       </View>
     </ScrollView>

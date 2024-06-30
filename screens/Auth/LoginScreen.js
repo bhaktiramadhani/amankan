@@ -6,15 +6,128 @@ import {
   Pressable,
   TouchableHighlight,
   Image,
+  Alert,
+  ActivityIndicator,
 } from "react-native";
 import { Logo, Eye, EyeOff } from "../../core/Svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useUserStore from "../../context/store";
+import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
+import axios from "axios";
+import { BACKEND_URL } from "../../data/data";
+
+const users = [
+  {
+    name: "Bhakti Ramadhani",
+    username: "bhakti",
+    password: "123456",
+    role: "pelapor",
+    nik: "1234567890",
+  },
+  {
+    name: "Udin Samsudin",
+    username: "udin",
+    password: "123456",
+    role: "petugas keamanan",
+    nik: "0987654321",
+  },
+  {
+    name: "Polsek Banjarmasin Barat",
+    username: "polsekbjmbarat",
+    password: "123456",
+    role: "polisi",
+    nik: "5678901234",
+  },
+  {
+    name: "Admin",
+    username: "admin",
+    password: "123456",
+    role: "admin",
+    nik: "9876543210",
+  },
+];
 
 const LoginScreen = ({ navigation }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const setUser = useUserStore((state) => state.setUser);
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const user = await AsyncStorage.getItem("user");
+        if (user) {
+          setUser(JSON.parse(user));
+          navigation.navigate("Home");
+        }
+      } catch (error) {
+        console.error("Error checking login status:", error);
+      }
+    };
+
+    checkLoginStatus();
+  }, []);
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleLogin = async () => {
+    if (!username || !password) {
+      Alert.alert("Info", "Username dan password harus diisi.");
+      return;
+    }
+
+    setLoading(true);
+    const postLogin = await axios.post(
+      `${BACKEND_URL}/api/login/`,
+      {
+        username: username,
+        password: password,
+      },
+      {
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    try {
+      if (postLogin.status == 200) {
+        const token = postLogin.data.payload.token;
+        const role = postLogin.data.payload.userRole;
+
+        const getProfile = await axios.get(
+          `${BACKEND_URL}/api/profile/${role}`,
+          {
+            headers: {
+              "ngrok-skip-browser-warning": "true",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        await AsyncStorage.setItem(
+          "user",
+          JSON.stringify(getProfile.data.payload)
+        );
+        console.log(getProfile.data.payload);
+        setUser(getProfile.data.payload);
+        navigation.navigate("Home");
+        setUsername("");
+        setPassword("");
+      } else {
+        Alert.alert("Gagal Login", "Username atau password salah.");
+        setPassword("");
+      }
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+    setLoading(false);
   };
 
   return (
@@ -24,7 +137,12 @@ const LoginScreen = ({ navigation }) => {
       <View style={styles.inputContainer}>
         <View>
           <Text style={styles.label}>Username</Text>
-          <TextInput style={styles.input} placeholder="Username anda..." />
+          <TextInput
+            style={styles.input}
+            placeholder="Username anda..."
+            value={username}
+            onChangeText={setUsername}
+          />
         </View>
         <View>
           <Text style={styles.label}>Password</Text>
@@ -32,6 +150,8 @@ const LoginScreen = ({ navigation }) => {
             secureTextEntry={!showPassword}
             style={styles.input}
             placeholder="Password anda..."
+            value={password}
+            onChangeText={setPassword}
           />
           <View style={styles.showPassword}>
             <Pressable onPress={handleShowPassword}>
@@ -49,11 +169,12 @@ const LoginScreen = ({ navigation }) => {
           <Text style={styles.textForgetPassword}>Lupa Password?</Text>
         </Pressable>
       </View>
-      <Pressable
-        style={styles.button}
-        onPress={() => navigation.navigate("Home")}
-      >
-        <Text style={styles.buttonText}>Masuk</Text>
+      <Pressable style={styles.button} onPress={handleLogin} disabled={loading}>
+        {loading ? (
+          <ActivityIndicator color="white" />
+        ) : (
+          <Text style={styles.buttonText}>Masuk</Text>
+        )}
       </Pressable>
       <View style={styles.textFooter}>
         <Text>Belum Punya Akun? </Text>

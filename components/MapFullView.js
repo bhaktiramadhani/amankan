@@ -1,11 +1,23 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { View, Text, StyleSheet, Platform, BackHandler } from "react-native";
-import MapView, { Callout, Circle, Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, {
+  Callout,
+  Circle,
+  Marker,
+  PROVIDER_GOOGLE,
+} from "react-native-maps";
 import { MarkerMan } from "../core/Svg";
+import { fetchLocation } from "../core/http";
+import registerForPushNotificationsAsync from "../core/notificationToken";
 
-export default function MapFullView({ location, setShowMapView }) {
+export default function MapFullView({
+  isProses,
+  address,
+  location,
+  setShowMapView,
+}) {
   const mapRef = useRef(null);
-  console.log(mapRef);
+  const [allUsers, setAllUsers] = useState([]);
   useEffect(() => {
     // custom back button
     const backHandler = BackHandler.addEventListener(
@@ -18,11 +30,29 @@ export default function MapFullView({ location, setShowMapView }) {
     return () => backHandler.remove();
   }, []);
 
-  
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const token = await registerForPushNotificationsAsync();
+      const users = await fetchLocation();
+      let usersEntry = [];
+
+      for (const key in users) {
+        if (users[key].token !== token) {
+          usersEntry.push(users[key]);
+        }
+      }
+      setAllUsers(usersEntry);
+    };
+    fetchUsers();
+    setInterval(() => {
+      fetchUsers();
+    }, 10000);
+  }, []);
+
   return (
     <View>
       <MapView
-        ref={mapRef}  
+        ref={mapRef}
         provider={PROVIDER_GOOGLE}
         style={styles.map}
         initialRegion={{
@@ -40,29 +70,30 @@ export default function MapFullView({ location, setShowMapView }) {
           center: location,
         }}
         zoomEnabled={true}
+        zoomControlEnabled={true}
       >
-        <Marker coordinate={location} />
-        <Marker
-          coordinate={{
-            latitude: location.latitude + 0.001,
-            longitude: location.longitude + 0.001,
-          }}
-          icon={require('../assets/images/marker_man.png')}
-        >
-          <Callout>
-            <Text>INI SIAPA</Text>
+        <Marker coordinate={location}>
+          <Callout style={{ width: 200 }}>
+            <Text style={{ width: 200 }}>{address}</Text>
           </Callout>
         </Marker>
-        <Marker
-          coordinate={{
-            latitude: location.latitude + 0.002,
-            longitude: location.longitude + 0.001,
-          }}
-          icon={require('../assets/images/marker_man.png')}
-        />
+        {allUsers.map((user) => (
+          <Marker
+            key={user.id}
+            coordinate={{
+              latitude: user.latitude,
+              longitude: user.longitude,
+            }}
+            icon={require("../assets/images/marker_man.png")}
+          >
+            <Callout style={{ width: 200 }}>
+              <Text style={{ width: 200 }}>{user.name}</Text>
+            </Callout>
+          </Marker>
+        ))}
         <Circle
           center={location}
-          radius={50} // radius in meters
+          radius={200} // radius in meters
           strokeWidth={1}
           strokeColor={"rgba(66,133,244,1)"}
           fillColor={"rgba(66,133,244,0.1)"}

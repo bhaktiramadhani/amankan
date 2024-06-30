@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { Search } from "../core/Svg";
 import CardLaporan from "../components/CardLaporan";
-import data from "../data/data";
+import { data } from "../data/data";
 
 const filterOptions = [
   { id: 1, label: "Semua" },

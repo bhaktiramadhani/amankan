@@ -49,7 +49,13 @@ export default function LaporScreen({ navigation }) {
   }
 
   if (isPhotoDone) {
-    return <LaporView image={capturedPhoto.uri} setIsPhotoDone={setIsPhotoDone} />;
+    return (
+      <LaporView
+        navigation={navigation}
+        image={capturedPhoto.uri}
+        setIsPhotoDone={setIsPhotoDone}
+      />
+    );
   }
 
   return (

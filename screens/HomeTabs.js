@@ -5,9 +5,17 @@ import LaporanScreen from "./LaporanScreen";
 import NotifikasiScreen from "./NotifikasiScreen";
 import ProfileScreen from "./ProfileScreen";
 import LaporScreen from "./LaporScreen";
-import { Beranda, Laporan, Notification, Plus, Profile } from "../core/Svg";
+import {
+  AkunIcon,
+  Beranda,
+  Laporan,
+  Notification,
+  Plus,
+  Profile,
+} from "../core/Svg";
 import { Text, TouchableOpacity } from "react-native";
 import useUserStore from "../context/store";
+import AkunScreen from "./AkunScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -44,17 +52,34 @@ export default function HomeTabs({ navigation }) {
           tabBarInactiveTintColor: tabBarInactiveTintColor,
         }}
       />
-      <Tab.Screen
-        name="Laporan"
-        component={LaporanScreen}
-        options={{
-          headerShown: false,
-          tabBarIcon: () => <Laporan width={24} height={24} />,
-          tabBarLabelStyle: tabBarLabelStyle,
-          tabBarActiveTintColor: tabBarActiveTintColor,
-          tabBarInactiveTintColor: tabBarInactiveTintColor,
-        }}
-      />
+      {user.role !== "admin" && (
+        <Tab.Screen
+          name="Laporan"
+          component={LaporanScreen}
+          options={{
+            headerShown: false,
+            tabBarIcon: () => <Laporan width={24} height={24} />,
+            tabBarLabelStyle: tabBarLabelStyle,
+            tabBarActiveTintColor: tabBarActiveTintColor,
+            tabBarInactiveTintColor: tabBarInactiveTintColor,
+          }}
+        />
+      )}
+      {user.role === "admin" && (
+        <Tab.Screen
+          name="Akun"
+          component={AkunScreen}
+          options={{
+            headerShown: false,
+            tabBarIcon: () => (
+              <AkunIcon width={24} height={24} fill="#000000" />
+            ),
+            tabBarLabelStyle: tabBarLabelStyle,
+            tabBarActiveTintColor: tabBarActiveTintColor,
+            tabBarInactiveTintColor: tabBarInactiveTintColor,
+          }}
+        />
+      )}
       <Tab.Screen
         name="Lapor"
         component={LaporScreen}

@@ -110,12 +110,12 @@ const LoginScreen = ({ navigation }) => {
             },
           }
         );
-        await AsyncStorage.setItem(
-          "user",
-          JSON.stringify(getProfile.data.payload)
-        );
-        console.log(getProfile.data.payload);
-        setUser(getProfile.data.payload);
+        const userProfile = {
+          ...getProfile.data.payload,
+          token: token,
+        };
+        await AsyncStorage.setItem("user", JSON.stringify(userProfile));
+        setUser(userProfile);
         navigation.navigate("Home");
         setUsername("");
         setPassword("");

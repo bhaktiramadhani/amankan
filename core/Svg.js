@@ -30,6 +30,13 @@ import InfoIcon from "../assets/images/svg/info-icon.svg";
 import PasswordIcon from "../assets/images/svg/password-icon.svg";
 import SettingIcon from "../assets/images/svg/setting-icon.svg";
 import ArrowRight from "../assets/images/svg/arrow-right.svg";
+import SemuaLaporanIcon from "../assets/images/svg/semua-laporan-icon.svg";
+import PelaporTerdaftarIcon from "../assets/images/svg/pelapor-terdaftar-icon.svg";
+import LaporanBelumSelesaiIcon from "../assets/images/svg/laporan-belum-selesai.svg";
+import LaporanTidakValidIcon from "../assets/images/svg/laporan-tidak-valid.svg";
+import LaporanSelesaiIcon from "../assets/images/svg/laporan-selesai.svg";
+import LaporanGagalIcon from "../assets/images/svg/laporan-gagal.svg";
+import AkunIcon from "../assets/images/svg/akun-icon.svg";
 export {
   Logo,
   Eye,
@@ -63,4 +70,11 @@ export {
   PasswordIcon,
   SettingIcon,
   ArrowRight,
+  SemuaLaporanIcon,
+  PelaporTerdaftarIcon,
+  LaporanBelumSelesaiIcon,
+  LaporanTidakValidIcon,
+  LaporanSelesaiIcon,
+  LaporanGagalIcon,
+  AkunIcon,
 };

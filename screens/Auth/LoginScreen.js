@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import useUserStore from "../../context/store";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
 import axios from "axios";
-import { BACKEND_URL } from "../../data/data";
+import { BACKEND_URL_LARAVEL } from "../../data/data";
 
 const users = [
   {
@@ -82,7 +82,7 @@ const LoginScreen = ({ navigation }) => {
 
     setLoading(true);
     const postLogin = await axios.post(
-      `${BACKEND_URL}/api/login/`,
+      `${BACKEND_URL_LARAVEL}/api/login/`,
       {
         username: username,
         password: password,
@@ -101,7 +101,7 @@ const LoginScreen = ({ navigation }) => {
         const role = postLogin.data.payload.userRole;
 
         const getProfile = await axios.get(
-          `${BACKEND_URL}/api/profile/${role}`,
+          `${BACKEND_URL_LARAVEL}/api/profile/${role}`,
           {
             headers: {
               "ngrok-skip-browser-warning": "true",

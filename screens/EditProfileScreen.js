@@ -8,13 +8,12 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useUserStore from "../context/store";
 import * as ImagePicker from "expo-image-picker";
 
 export default function EditProfileScreen({ navigation }) {
   const user = useUserStore((state) => state.user);
-  console.log(user.lokasi_rumah);
   const [nik, setNik] = useState(user.nik);
   const [role, setRole] = useState(user.role);
   const [username, setUsername] = useState(user.username);
@@ -22,7 +21,11 @@ export default function EditProfileScreen({ navigation }) {
   const [number, setNumber] = useState(user.number);
   const [alamat, setAlamat] = useState(user.alamat);
   const [image, setImage] = useState(null);
+  const [lokasi, setLokasi] = useState(user.lokasi_rumah);
 
+  useEffect(() => {
+    setLokasi(user.lokasi_rumah.split(","));
+  }, []);
   const handleUploadGambar = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -128,7 +131,11 @@ export default function EditProfileScreen({ navigation }) {
               style={styles.button}
               onPress={() =>
                 navigation.navigate("CekLokasi", {
-                  koordinat: user.lokasi_rumah,
+                  koordinat: {
+                    latitude: parseFloat(lokasi[0]),
+                    longitude: parseFloat(lokasi[1]),
+                    lokasi_rumah: user.alamat,
+                  },
                 })
               }
             >

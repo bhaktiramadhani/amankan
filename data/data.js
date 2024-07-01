@@ -71,5 +71,4 @@ export const getGreeting = () => {
   }
 };
 
-export const BACKEND_URL =
-  "https://7bf0-2001-448a-6020-d50e-649e-842a-71d0-12a7.ngrok-free.app";
+export const BACKEND_URL_LARAVEL = "https://f732-114-10-143-55.ngrok-free.app";

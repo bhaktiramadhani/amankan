@@ -18,6 +18,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import useUserStore from "./context/store";
 import EditProfileScreen from "./screens/EditProfileScreen";
 import LokasiRumahScreen from "./screens/LokasiRumahScreen";
+import UbahPasswordScreen from "./screens/UbahPasswordScreen";
+import TentangAplikasiScreen from "./screens/TentangAplikasiScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -194,8 +196,29 @@ export default function App() {
               headerStyle: { backgroundColor: "#FF2D2D" },
               headerTintColor: "#fff",
               headerTitleStyle: { fontWeight: "bold", fontSize: 20 },
-              headerTitleAlign: "center",
               title: "",
+            }}
+          />
+          <Stack.Screen
+            name="UbahPassword"
+            component={UbahPasswordScreen}
+            options={{
+              headerStyle: { backgroundColor: "#FF2D2D" },
+              headerTintColor: "#fff",
+              headerTitleStyle: { fontWeight: "bold", fontSize: 20 },
+              headerTitleAlign: "center",
+              title: "Ubah Password",
+            }}
+          />
+          <Stack.Screen
+            name="TentangAplikasi"
+            component={TentangAplikasiScreen}
+            options={{
+              headerStyle: { backgroundColor: "#FF2D2D" },
+              headerTintColor: "#fff",
+              headerTitleStyle: { fontWeight: "bold", fontSize: 20 },
+              headerTitleAlign: "center",
+              title: "Tentang Aplikasi",
             }}
           />
         </Stack.Navigator>

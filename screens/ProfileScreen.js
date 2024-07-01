@@ -11,7 +11,7 @@ import Navbar from "../components/Navbar";
 import useUserStore from "../context/store";
 import { ArrowRight, InfoIcon, PasswordIcon, SettingIcon } from "../core/Svg";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { BACKEND_URL } from "../data/data";
+import { BACKEND_URL_LARAVEL } from "../data/data";
 
 export default function ProfileScreen({ navigation }) {
   const user = useUserStore((state) => state.user);
@@ -29,7 +29,7 @@ export default function ProfileScreen({ navigation }) {
       <View style={[styles.biodataContainer, styles.mHorizontal]}>
         <Image
           style={styles.imageProfile}
-          source={{ uri: `${BACKEND_URL}/img/${user.user_image}` }}
+          source={{ uri: `${BACKEND_URL_LARAVEL}/img/${user.user_image}` }}
           width={80}
           height={80}
         />
@@ -68,7 +68,10 @@ export default function ProfileScreen({ navigation }) {
           </Text>
           <ArrowRight width={24} height={24} fill="#000000" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.linkItem}>
+        <TouchableOpacity
+          style={styles.linkItem}
+          onPress={() => navigation.navigate("UbahPassword")}
+        >
           <PasswordIcon width={24} height={24} fill="#000000" />
           <Text
             style={{
@@ -82,7 +85,10 @@ export default function ProfileScreen({ navigation }) {
           </Text>
           <ArrowRight width={24} height={24} fill="#000000" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.linkItem}>
+        <TouchableOpacity
+          style={styles.linkItem}
+          onPress={() => navigation.navigate("TentangAplikasi")}
+        >
           <InfoIcon width={24} height={24} fill="#000000" />
           <Text
             style={{
